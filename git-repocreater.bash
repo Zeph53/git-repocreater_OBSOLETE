@@ -58,7 +58,7 @@ if [[ $1 ]]; then
     git branch -M main ; 
     GITUSERTEMP="$(mktemp)"
     printf "$(gh auth status)" > "$GITUSERTEMP" ; 
-    cat >> $GITUSERTEMP ;
+    nano $GITUSERTEMP ;
     git remote add origin https://github.com/$GITUSERNAME/$REPONAME.git ; 
     DESCRIPTION="$(mktemp)" 
     printf "\nCreate a description: Control-D to continue\n" ; 
