@@ -57,7 +57,7 @@ if [[ $1 ]]; then
     git commit -m "commit" ;
     git branch -M main ; 
     GITUSERTEMP="$(mktemp)"
-    printf "$(gh auth status)" &> $GITUSERTEMP ; 
+    gh auth status &> $GITUSERTEMP ; 
     nano $GITUSERTEMP ;
     git remote add origin https://github.com/$GITUSERNAME/$REPONAME.git ; 
     DESCRIPTION="$(mktemp)" 
