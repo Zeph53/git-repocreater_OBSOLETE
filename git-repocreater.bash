@@ -21,7 +21,7 @@ fi
 #
 ## Login to GH
 if ! gh auth status; then
-    GH_TOKEN="$(cat ~/.netrc | grep -A 2 "machine github.com" | grep "password" | sed "s/password//g" | sed "s/ //g" )"
+    GH_TOKEN="$( cat ~/.netrc | grep -A 2 "machine github.com" | grep "password" | sed "s/password//g" | sed "s/ //g" )"
     printf "$GH_TOKEN\n" | gh auth login --with-token ;
     gh auth status ;
     gh config set git_protocol https ;
@@ -33,14 +33,14 @@ fi
 if [[ $1 ]]; then
     #
     ## Copy argument's contents to working sources dir
-    REPONAME="$(printf $1 | awk -F "/" '{print $NF}' | rev | cut -f 2- -d '.' | rev )"
+    REPONAME="$( printf $1 | awk -F "/" '{print $NF}' | rev | cut -f 2- -d '.' | rev )"
     mkdir -p ~/.github/$REPONAME.git ;
     cp --force --recursive $1 ~/.github/$REPONAME.git ;
     cp --force --recursive ~/.github/GNU-GeneralPublicLicense-v3.0 ~/.github/$REPONAME.git/LICENSE.MD ;
     #
     ## Create a README.MD file
     if ! ls -a ~/.github/$REPONAME.git/README.MD ; then
-        README="$(mktemp)"
+        README="$( mktemp )"
         printf "\nCreate a README.MD: Control-D to continue\n" ;
         cat > $README ;
         printf "" ;
@@ -56,19 +56,21 @@ if [[ $1 ]]; then
     git add * ;
     git commit -m "commit" ;
     git branch -M main ; 
-    GITUSERTEMP="$(mktemp)"
-    GITUSERNAME="$(cat $GITUSERTEMP | grep "Logged in" | awk -F " " '{print $7}' )"
+    GITUSERTEMP="$( mktemp )"
+    GITUSERNAME="$( cat $GITUSERTEMP | grep "Logged in" | awk -F " " '{print $7}' )"
     gh auth status &> $GITUSERTEMP ; 
     git remote add origin https://github.com/$GITUSERNAME/$REPONAME.git ; 
-    DESCRIPTION="$(mktemp)" 
+    DESCRIPTION="$( mktemp )" 
     printf "\nCreate a description: Control-D to continue\n" ; 
     cat >> $DESCRIPTION ;
-    gh repo create $REPONAME --source . --public --remote origin --description "$(printf "$(cat $DESCRIPTION)")" ;
+    gh repo create $REPONAME --source . --public --remote origin --description "$( printf "$(cat $DESCRIPTION )")" ;
     rm --force $DESCRIPTION ;
     git push -u origin main ;
     git config pull.ffonly true ;
     git pull origin main ; 
     git push -u origin main ;
 else
-    printf "\nADD A FILE OR DIRECTORY AS ARGUMENT\n"
+    printf "
+    ADD A FILE OR DIRECTORY AS ARGUMENT
+    For example: \n"
 fi
