@@ -56,7 +56,10 @@ if [[ $1 ]]; then
     git add * ;
     git commit -m "commit" ;
     git branch -M main ; 
-    git remote add origin https://github.com/Zeph53/$REPONAME.git ; 
+    GITUSERTEMP="$(mktemp)"
+    printf "$(gh auth status)" > "$GITUSERTEMP" ; 
+    printf "$GITUSERTEMP" ;
+    git remote add origin https://github.com/$GITUSERNAME/$REPONAME.git ; 
     DESCRIPTION="$(mktemp)" 
     printf "\nCreate a description: Control-D to continue\n" ; 
     cat >> $DESCRIPTION ;
