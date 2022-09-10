@@ -59,7 +59,7 @@ if [[ $1 ]]; then
     git remote add origin https://github.com/Zeph53/$REPONAME.git ; 
     DESCRIPTION="$(mktemp)" 
     printf "\nCreate a description: Control-D to continue\n" ; 
-    cat > $DESCRIPTION ;
+    cat >> $DESCRIPTION ;
     gh repo create $REPONAME --source . --public --remote origin --description "$(printf "$(cat $DESCRIPTION)")" ;
     rm --force $DESCRIPTION ;
     git push -u origin main ;
