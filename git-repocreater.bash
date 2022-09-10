@@ -57,8 +57,7 @@ if [[ $1 ]]; then
     git commit -m "commit" ;
     git branch -M main ; 
     GITUSERTEMP="$(mktemp)"
-    gh auth status &> $GITUSERTEMP ;
-    cat >> $GITUSERTEMP | grep "Logged" ; 
+    gh auth status &> $GITUSERTEMP ; cat $GITUSERTEMP | grep "Logged in" $GITUSERTEMP | awk -F " " '{print $7}' ;
     git remote add origin https://github.com/$GITUSERNAME/$REPONAME.git ; 
     DESCRIPTION="$(mktemp)" 
     printf "\nCreate a description: Control-D to continue\n" ; 
