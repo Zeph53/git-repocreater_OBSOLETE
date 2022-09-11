@@ -72,5 +72,6 @@ if [[ $1 ]]; then
 else
     printf "
     ADD A FILE OR DIRECTORY AS ARGUMENT
-    For example: \n"
+    For example: $ git-repocreater.bash "/home/user/scripts/a-script-i-wanna-backup.sh"
+    Out comes a repository on GitHub based on the name on the file/directory \n\n"
 fi
