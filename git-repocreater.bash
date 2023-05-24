@@ -36,7 +36,10 @@ if [[ $1 ]]; then
     REPONAME="$( printf $1 | awk -F "/" '{print $NF}' | rev | cut -f 2- -d '.' | rev )"
     mkdir -p ~/.github/$REPONAME.git ;
     cp --force --recursive $1 ~/.github/$REPONAME.git ;
-    cp --force --recursive ~/.github/GNU-GeneralPublicLicense-v3.0 ~/.github/$REPONAME.git/LICENSE.MD ;
+    if ! ls -a ~/.github/GNU-GeneralPublicLicense-v3.0.txt ; then
+        curl https://www.gnu.org/licenses/gpl-3.0.txt -o ~/.github/GNU-GeneralPublicLicense-v3.0.txt ;
+    fi
+    cp --force --recursive ~/.github/GNU-GeneralPublicLicense-v3.0.txt ~/.github/$REPONAME.git/LICENSE.MD ;
     #
     ## Create a README.MD file
     if ! ls -a ~/.github/$REPONAME.git/README.MD ; then
@@ -47,7 +50,7 @@ if [[ $1 ]]; then
         cp --recursive --force $README ~/.github/$REPONAME.git/README.MD ;
         rm --force $README ;
     else
-        printf "\nModify the README.MD: Control-D to continue\n" ;
+        printf "\nModify the README.MD, press Control-D to continue:\n" ;
         cat >> ~/.github/$REPONAME.git/README.MD |
         cat ~/.github/$REPONAME.git/README.MD ;
     fi
@@ -55,20 +58,28 @@ if [[ $1 ]]; then
     git init ;
     git add * ;
     git commit -m "commit" ;
-    git branch -M main ; 
-    GITUSERTEMP="$( mktemp )"
-    GITUSERNAME="$( cat $GITUSERTEMP | grep "Logged in" | awk -F " " '{print $7}' )"
-    gh auth status &> $GITUSERTEMP ; 
+    git branch -M main ;
+
+    GITUSERNAMETEMP="$( cat ~/.config/gh/hosts.yml | grep "user" | awk '{printf $NF}' )"
+    GITUSERNAME="$( printf $GITUSERNAMETEMP )"
     git remote add origin https://github.com/$GITUSERNAME/$REPONAME.git ; 
-    DESCRIPTION="$( mktemp )" 
-    printf "\nCreate a description: Control-D to continue\n" ; 
-    cat >> $DESCRIPTION ;
-    gh repo create $REPONAME --source . --public --remote origin --description "$( printf "$(cat $DESCRIPTION )")" ;
-    rm --force $DESCRIPTION ;
-    git push -u origin main ;
+
+
+    DESCRIPTIONTEMP="$( mktemp )" 
+    printf "\nCreate a description in the '"About"' section of your repository, press Control-D to continue:\n" ; 
+    OLDDESCRIPTION="$( mktemp )" 
+    gh repo view https://github.com/$GITUSERNAME/$REPONAME.git --jq "" --json description | awk -F '"' '{printf$4}' > $OLDDESCRIPTION 
+    cat $OLDDESCRIPTION - $(printf $OLDDESCRIPTION) >> $DESCRIPTIONTEMP ;
+    DESCRIPTION="$( printf "$(cat $DESCRIPTIONTEMP )")"
+
+
+    gh repo create $REPONAME --source . --public --remote origin ;
+    gh repo edit https://github.com/$GITUSERNAME/$REPONAME.git --description "$DESCRIPTION" ;
+    rm --force $DESCRIPTIONTEMP ;
     git config pull.ffonly true ;
-    git pull origin main ; 
-    git push -u origin main ;
+    git push -u https://github.com/$GITUSERNAME/$REPONAME.git main ;
+    git pull https://github.com/$GITUSERNAME/$REPONAME.git main ; 
+    git push -u https://github.com/$GITUSERNAME/$REPONAME.git main ;
 else
     printf "
     ADD A FILE OR DIRECTORY AS ARGUMENT
