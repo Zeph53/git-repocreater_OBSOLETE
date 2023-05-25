@@ -9,12 +9,12 @@ configures gh and git to use it, permanantly logging you in.
 
 It then takes the file/folder added to the command execution as an argument,  
 creates a repository directly on GitHub and then prompts the user to  
-create a description or edit the current one. 
+create a description or edit the current one.  
 Afterwards, prompts the user to create a README.MD.  
 Then simply uploads the files to the repository.  
 Automatically.  
 
-It can also be used to update the repository, or synchronize the local files with it.
+It can also be used to update the repository, or synchronize the local files with it.  
 
 ## Installation  
 Just download the ZIP and extract it somewhere, or clone the repository.  
@@ -39,13 +39,13 @@ Simply execute the script with the file or folder that you would like to create 
     sudo git-repocreater.bash "~/git-repocreater/git-repocreater.bash"
 And then follow the directions presented by the terminal.  
 ## Troubleshooting  
-The user must use their GitHub username rather than their email address to create an access token in ~/.netrc.
+The user must use their GitHub username rather than their email address to create an access token in ~/.netrc.  
 ## Things to add  
-More commentsing of lines.
-Addition of some directions for the README.MD section.
-##  Bugs
-Synchronizing local files may not function properly.
-The description for the repo isn't perfectly editable.
-The README.MD section isn't perfectly editable.
-Email addresses can't be parsed.
+More commentsing of lines.  
+Addition of some directions for the README.MD section.  
+##  Bugs  
+Synchronizing local files may not function properly.  
+The description for the repo isn't perfectly editable.  
+The README.MD section isn't perfectly editable.  
+Email addresses can't be parsed.  
 ##
