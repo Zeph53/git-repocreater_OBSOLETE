@@ -1,4 +1,4 @@
-# GIT-REPOCREATER  
+# GIT-REPOCREATER.BASH  
 
 This is a little Bash script to basically instantly upload stuff to GitHub.  
 Just add an argument to the command used to run the script.  
