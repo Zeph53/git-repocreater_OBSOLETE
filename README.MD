@@ -8,14 +8,14 @@ Then it should create the repository directly on GitHub
 #### Just download the ZIP and extract it somewhere, or clone the repository:
     sudo git clone https://github.com/Zeph53/git-repocreater/
     sudo cd git-repocreater/
-#### If you really wanted to, it can be added to /usr/bin. Which makes it globally executable within Bash. 
+#### If you really wanted to, it can be added to "/usr/bin". Which makes it globally executable within Bash. 
     sudo git clone https://github.com/Zeph53/git-repocreater/
     sudo cp -r git-repocreater/git-repocreater.bash /usr/bin/
     sudo gio trash --force git-repocreater/
 ## Uninstallation  
 #### Remove the script from your system:
     sudo gio trash --force ~/git-repocreater/
-#### Or, if you installed it to "/usr/bin", remove the script from your binaries directory:
+#### Or, if you installed it to "/usr/bin", remove the script from the binaries directory:
     sudo gio trash --force /usr/bin/git-repocreater.bash
 ## Usage  
 #### Simply execute the script with the file or folder that you would like to create a repository of as an argument, for example:
